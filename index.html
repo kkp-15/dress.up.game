@@ -23,6 +23,14 @@
         .avatar img {
             position: absolute;
             width: 100%;
+            top: 0;
+            left: 0;
+        }
+        #base {
+            z-index: 1;
+        }
+        #clothes {
+            z-index: 2;
         }
         .options button {
             margin: 10px;
@@ -46,7 +54,8 @@
     </div>
     <script>
         function changeClothes(image) {
-            document.getElementById('clothes').src = image;
+            let clothesImg = document.getElementById('clothes');
+            clothesImg.src = image;
         }
     </script>
 </body>
