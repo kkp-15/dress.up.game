@@ -23,19 +23,15 @@
         .avatar img {
             position: absolute;
             width: 100%;
-            top: 0;
-            left: 0;
+            height: auto;
         }
         #base {
-            z-index: 1;
+            z-index: 1; /* キャラクターのベースを一番後ろに */
         }
         #clothes {
-            z-index: 2;
-        }
-        .options button {
-            margin: 10px;
-            padding: 10px;
-            cursor: pointer;
+            z-index: 2; /* 服をキャラクターの上に表示 */
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
@@ -54,8 +50,7 @@
     </div>
     <script>
         function changeClothes(image) {
-            let clothesImg = document.getElementById('clothes');
-            clothesImg.src = image;
+            document.getElementById('clothes').src = image;
         }
     </script>
 </body>
