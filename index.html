@@ -3,54 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>着せ替えゲーム</title>
+    <title>魔法使いの冒険</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
     <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh;
-        }
-        .avatar {
-            position: relative;
-            width: 200px;
-            height: 400px;
-        }
-        .avatar img {
-            position: absolute;
-            width: 100%;
-            height: auto;
-        }
-        #base {
-            z-index: 1; /* キャラクターのベースを一番後ろに */
-        }
-        #clothes {
-            z-index: 2; /* 服をキャラクターの上に表示 */
-            top: 0;
-            left: 0;
-        }
+        body { margin: 0; }
+        canvas { display: block; }
     </style>
 </head>
 <body>
-    <h1>着せ替えゲーム</h1>
-    <div class="container">
-        <div class="avatar">
-            <img id="base" src="base.png" alt="キャラクター">
-            <img id="clothes" src="" alt="服装">
-        </div>
-    </div>
-    <div class="options">
-        <button onclick="changeClothes('clothes1.png')">服1</button>
-        <button onclick="changeClothes('clothes2.png')">服2</button>
-        <button onclick="changeClothes('')">リセット</button>
-    </div>
     <script>
-        function changeClothes(image) {
-            document.getElementById('clothes').src = image;
+        var config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        var player;
+        var cursors;
+
+        var game = new Phaser.Game(config);
+
+        function preload() {
+            // キャラクター画像（ローカルのassetsフォルダから）
+            this.load.image('wizard', 'assets/wizard.png');
+
+            // 背景画像（あれば）
+            this.load.image('background', 'assets/background.png');
+        }
+
+        function create() {
+            // 背景画像を追加（あれば）
+            this.add.image(400, 300, 'background');
+
+            // キャラクターを画面中央に配置
+            player = this.physics.add.sprite(400, 300, 'wizard');
+
+            // キャラクターの移動範囲を画面内に制限
+            player.setCollideWorldBounds(true);
+
+            // キーボードの矢印キーで移動できるように
+            cursors = this.input.keyboard.createCursorKeys();
+        }
+
+        function update() {
+            // 左に移動
+            if (cursors.left.isDown) {
+                player.setVelocityX(-160);
+            }
+            // 右に移動
+            else if (cursors.right.isDown) {
+                player.setVelocityX(160);
+            }
+            // 動かない時は停止
+            else {
+                player.setVelocityX(0);
+            }
+
+            // 上に移動
+            if (cursors.up.isDown) {
+                player.setVelocityY(-160);
+            }
+            // 下に移動
+            else if (cursors.down.isDown) {
+                player.setVelocityY(160);
+            }
+            // 動かない時は停止
+            else {
+                player.setVelocityY(0);
+            }
         }
     </script>
 </body>
